@@ -1447,7 +1447,7 @@ module Net
         when Array
           command_request = data.collect {|i| format_internal(i)}.join(",")
           puts command_request << " UID"
-          return append.nil? command_request : command_request << " UID"
+          return append.nil? ? command_request : command_request << " UID"
         when ThreadMember
           return data.seqno.to_s +
             ":" + data.children.collect {|i| format_internal(i).join(",")}
