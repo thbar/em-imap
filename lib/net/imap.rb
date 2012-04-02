@@ -1421,7 +1421,7 @@ module Net
 
     class MessageSet # :nodoc:
       def send_data(imap)
-        imap.send(:put_string, format_internal(@data))
+        imap.send(:put_string, format_internal(@data, append = true))
       end
 
       private
@@ -1430,7 +1430,7 @@ module Net
         @data = data
       end
 
-      def format_internal(data)
+      def format_internal(data, append = nil)
         case data
         when "*"
           return data
@@ -1445,7 +1445,9 @@ module Net
           return format_internal(data.first) +
             ":" + format_internal(data.last)
         when Array
-          return data.collect {|i| format_internal(i)}.join(",")
+          command_request = data.collect {|i| format_internal(i)}.join(",")
+          puts command_request << " UID"
+          return append.nil? command_request : command_request << " UID"
         when ThreadMember
           return data.seqno.to_s +
             ":" + data.children.collect {|i| format_internal(i).join(",")}
