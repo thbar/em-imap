@@ -310,7 +310,7 @@ module EventMachine
       # The same as fetch, but keyed of UIDs instead of sequence numbers.
       #
       def uid_fetch(seq, attr="FULL")
-        fetch_internal("UID", "FETCH", seq, attr)
+        fetch_internal("UID FETCH", seq, attr)
       end
 
       # Update the flags on a message.
